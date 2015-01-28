@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo aptitude update
-sudo aptitude safe upgrade -y
+sudo aptitude safe-upgrade -y
 
 sudo ufw default DENY
 sudo ufw limit ssh
