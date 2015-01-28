@@ -5,16 +5,6 @@ box = "ubuntu/trusty64"
 vm_name = ''
 ip_address = ''
 
-if ip_address == ""
-  puts "Vagrantfileを編集して，仮想マシンの名前を設定してください"
-  exit
-end
-
-if ip_address == ""
-  puts "Vagrantfileを編集して，仮想マシンのIPアドレスを設定してください"
-  exit
-end
-
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -27,10 +17,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define vm_name do |machine|
-    machine.vm.network "private_network", ip: ip_address
+    # プライベートIPアドレスかつDHCP接続の場合
+    machine.vm.network "private_network"
+
+    # プライベートIPアドレスかつ固定IPの場合
+    ## machine.vm.network "private_network", ip: ip_address
+
+    # グローバルIPアドレスかつDHCP接続の場合
+    ## machine.vm.network "public_network"
+
+    # グローバルIPアドレスかつ固定IPの場合
+    ## machine.vm.network "public_network", ip: ip_address
   end
 
-  config.vm.provision :shell, :path => "init.sh"
+  #config.vm.provision :shell, :path => "init.sh"
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
