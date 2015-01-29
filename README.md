@@ -1,20 +1,34 @@
-# vm_template
+## vm_template
+===============
 
 VagrantでVirtualBox用の仮想マシンを作成するためのテンプレート．
 
-このリポジトリをgit cloneし，仮想マシン名とIPアドレスを設定した後にvagrant upすると，
+このリポジトリをgit cloneし，仮想マシン名を設定した後にvagrant upすると，
 Ubuntu 14.04の仮想マシンを作成できる．
 
-仮想マシン名とIPアドレスの設定は，Vagrantfileを各種テキストエディタで編集するか，
-sedコマンドで書き換える．
-下記サンプルはMacのsedを使った場合のものであり，UbuntuやDebian，CentOSなどで
-実行する場合はsedのオプションを適宜修正すること．
+事前に以下の作業を行っておくこと
+
++ SSH接続に使用する公開鍵，秘密鍵の作成
++ VirtualBoxのインストール
++ Vagrantのインストール
++ Gitのインストール
+
+上記の作業を実行した後，下記コマンドを参考に
+仮想マシンの作成と起動を行う
 
 ``
 git clone https://github.com/tsunagun/vm_template.git
 cd vm_template
+cat ~/.ssh/*id_rsa.pub keys/id_rsa.pub
 sed -i "" -e "s/^vm_name.*/vm_name = 'vagrant_template'/" Vagrantfile
-sed -i "" -e "s/^ip_address.*/ip_address = '192.168.33.101'/" Vagrantfile
 vagrant up
-vagrant ssh
+``
+
+作成した仮想マシンはSSH経由で操作することになる．
+vagrant upを実行したディレクトリでvagrant sshを実行すると，仮想マシンにSSHでログインできる．
+また，通常のsshコマンドで接続することも可能である．
+
+``
+cd vm_template
+vagrant ssh-config >> ~/.ssh/config
 ``
